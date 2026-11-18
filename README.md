@@ -1,13 +1,13 @@
 
-# Character Manager – Sprint 3 (TP8)
+# Character Manager – Sprint 4 (TP10)
 
-## MainWindow, Data Dinamis & Analisis MVC
+## Theming, Properti Komponen & Analisis MVC
 
 **Mata Kuliah:** Java Visual  
 **CPMK:** 2  
-**SCPMK:** 3  
-**Sprint:** 3  
-**Tugas:** TP8 – Character Manager Sprint #3
+**SCPMK:** 4  
+**Sprint:** 4  
+**Tugas:** TP10 – Character Manager Sprint #4
 
 ---
 
@@ -15,21 +15,133 @@
 
 Character Manager merupakan aplikasi berbasis Java yang dikembangkan menggunakan konsep Object-Oriented Programming (OOP) dan Graphical User Interface (GUI) dengan Java Swing.
 
-Pada Sprint 3 ini, aplikasi dikembangkan dengan menambahkan tampilan utama menggunakan class MainWindow. Data karakter ditampilkan secara dinamis melalui perulangan, serta dilengkapi informasi jumlah karakter dan rata-rata level karakter.
+Pada Sprint 4 ini, aplikasi dikembangkan dari versi 0.3 menjadi versi 0.4. Pengembangan berfokus pada penerapan tema visual menggunakan class AppTheme, pengaturan properti komponen Swing, serta pemahaman pemisahan tanggung jawab berdasarkan prinsip Model-View-Controller (MVC).
 
-Aplikasi juga menerapkan konsep Model-View-Controller (MVC) agar pengelolaan data dan tampilan memiliki tanggung jawab yang terpisah.
+Class AppTheme digunakan untuk mengelola warna, font, border, dan warna kartu berdasarkan role karakter. Tampilan aplikasi juga diperbarui agar lebih konsisten dan mudah digunakan.
 
 ## 2. Fitur yang Dikembangkan
 
-1. Menampilkan GUI menggunakan JFrame.
-2. Menampilkan daftar karakter secara dinamis.
-3. Menampilkan minimal 5 karakter.
-4. Menampilkan nama, tipe, level, HP, dan ATK karakter.
-5. Menghitung dan menampilkan rata-rata level karakter.
-6. Menjalankan GUI menggunakan SwingUtilities.invokeLater().
-7. Menerapkan pemisahan tanggung jawab sesuai prinsip MVC.
+1. Membuat class AppTheme.java pada package view.
+2. Mengatur warna utama dan warna teks aplikasi.
+3. Memberikan warna kartu berbeda berdasarkan role karakter.
+4. Menggunakan tiga konstanta font.
+5. Mengatur border melalui AppTheme.
+6. Menggunakan pack() untuk menyesuaikan ukuran jendela.
+7. Menampilkan enam karakter dengan role dan level yang bervariasi.
+8. Memberikan highlight emas dan tebal pada karakter dengan level minimal 5.
+9. Menyimpan batas level tinggi dalam konstanta HIGH_LEVEL_THRESHOLD.
+10. Menambahkan tooltip dan properti enabled pada kartu karakter.
+11. Mempertahankan fitur perhitungan rata-rata level.
 
-## 3. Struktur Program
+## 3. Implementasi AppTheme
+
+Class AppTheme.java dibuat pada package:
+
+`com.unpri.charactermanager.view`
+
+Class ini bertanggung jawab mengatur tampilan aplikasi secara terpusat.
+
+### A. Warna Berdasarkan Role
+
+| Role | Warna |
+|---|---|
+| WARRIOR | Merah |
+| MAGE | Biru |
+| ARCHER | Hijau |
+| HEALER | Ungu |
+
+Warna tersebut diterapkan menggunakan method colorFor(CharacterType type). Method ini menentukan warna kartu berdasarkan tipe karakter.
+
+### B. Font
+
+AppTheme menyediakan tiga konstanta font:
+
+- FONT_TITLE: SansSerif tebal ukuran 22.
+- FONT_BODY: SansSerif normal ukuran 14.
+- FONT_MONO: Monospaced normal ukuran 13.
+
+### C. Border
+
+AppTheme menyediakan CARD_BORDER menggunakan BorderFactory.createEmptyBorder() untuk mengatur jarak bagian dalam kartu karakter.
+
+## 4. Mini-Challenge – Highlight Level Tinggi
+
+Karakter dengan level minimal 5 akan mendapatkan warna teks emas dan gaya font tebal.
+
+Batas level tersebut disimpan dalam konstanta:
+
+`HIGH_LEVEL_THRESHOLD = 5`
+
+Karakter dengan level di bawah 5 menggunakan teks putih dan font normal.
+
+Penggunaan konstanta membuat pengaturan batas level lebih mudah diubah dan menghindari penulisan angka yang sama secara berulang.
+
+## 5. Dua Properti Tambahan
+
+### A. Tooltip
+
+Properti setToolTipText() digunakan untuk menampilkan informasi tambahan ketika kursor diarahkan ke kartu karakter.
+
+Informasi yang ditampilkan meliputi role, HP, dan ATK. Properti ini membantu pengguna melihat informasi karakter tanpa membuat tampilan utama terlalu penuh.
+
+### B. Enabled
+
+Properti setEnabled(false) digunakan untuk menandai karakter dengan level 1 sebagai karakter terkunci.
+
+Properti ini memberikan tampilan berbeda pada karakter yang masih berada di level awal. Tooltip khusus juga ditambahkan untuk menjelaskan kondisi karakter tersebut.
+
+## 6. Data Karakter
+
+Pada Sprint 4, aplikasi menampilkan enam karakter dengan variasi role dan level.
+
+| Nama | Tipe | Level |
+|---|---|---:|
+| Arjuna | WARRIOR | 5 |
+| Merlin | MAGE | 3 |
+| Athena | ARCHER | 4 |
+| Bima | WARRIOR | 7 |
+| Luna | HEALER | 10 |
+| Morgana | MAGE | 1 |
+
+Perhitungan rata-rata level:
+
+(5 + 3 + 4 + 7 + 10 + 1) / 6 = 5.00
+
+## 7. Hasil Pengujian
+
+### A. Sebelum Pengembangan – Versi 0.3
+
+Pada versi 0.3, tampilan karakter masih sederhana dan belum menggunakan warna khusus berdasarkan role.
+
+![Character Manager versi 0.3](screenshots/tp10-sebelum-v03.png)
+
+### B. Setelah Pengembangan – Versi 0.4
+
+Pada versi 0.4, setiap kartu karakter memiliki warna sesuai role. Karakter dengan level minimal 5 ditampilkan dengan teks emas dan tebal. Tooltip dan properti enabled juga telah diterapkan.
+
+![Character Manager versi 0.4](screenshots/tp10-sesudah-v04.png)
+
+### C. Ringkasan Pengujian
+
+| Komponen yang Diuji | Hasil |
+|---|---|
+| AppTheme | Berhasil |
+| Warna kartu berdasarkan role | Berhasil |
+| Highlight level minimal 5 | Berhasil |
+| Tooltip informasi karakter | Berhasil |
+| Karakter level 1 nonaktif | Berhasil |
+| Rata-rata level | Berhasil |
+| Kompilasi program | Berhasil |
+
+## 8. Analisis MVC
+
+Pengaturan warna, font, border, dan properti visual ditempatkan pada layer View karena berkaitan dengan bagaimana informasi ditampilkan kepada pengguna.
+
+Class Character pada Model bertanggung jawab merepresentasikan data dan karakteristik karakter, bukan mengatur tampilan antarmuka.
+
+Dengan memisahkan tanggung jawab tersebut, perubahan tema aplikasi dapat dilakukan tanpa mengubah struktur Model. Penggunaan AppTheme juga membuat pengaturan tampilan lebih terpusat, konsisten, dan mudah dipelihara.
+
+## 9. Struktur Program
 
 ```text
 CharacterManager/
@@ -46,81 +158,37 @@ CharacterManager/
 │               │   └── CharacterManager.java
 │               │
 │               └── view/
-│                   └── MainWindow.java
+│                   ├── MainWindow.java
+│                   └── AppTheme.java
 │
 ├── screenshots/
+│   ├── tp10-sebelum-v03.png
+│   └── tp10-sesudah-v04.png
 │
 └── README.md
 ```
 
-## 4. Data Karakter
+## 10. Laporan Google Docs
 
-Pada Sprint 3 terdapat lima karakter yang ditampilkan dalam aplikasi:
+Link laporan Google Docs TP10:
 
-| Nama | Tipe | Level |
-|---|---|---:|
-| Arjuna | WARRIOR | 5 |
-| Merlin | MAGE | 3 |
-| Athena | ARCHER | 4 |
-| Bima | WARRIOR | 7 |
-| Luna | HEALER | 10 |
+**Akan ditambahkan setelah dokumen analisis TP10 selesai dibuat.**
 
-### Karakter Baru
+Nama dokumen:
 
-**Bima**
-- Tipe: WARRIOR
-- Level: 7
-- Alasan: Bima ditambahkan sebagai karakter petarung dengan level lebih tinggi untuk memperkaya variasi data karakter.
+`JavaVisual_TP10_[NIM]_[Nama]`
 
-**Luna**
-- Tipe: HEALER
-- Level: 10
-- Alasan: Luna ditambahkan sebagai karakter pendukung dengan level tinggi untuk menunjukkan variasi tipe karakter dan perubahan statistik rata-rata.
+## 11. Kesimpulan
 
-## 5. Implementasi MVC dan Alur Data
+Melalui Sprint 4 TP10, aplikasi Character Manager berhasil dikembangkan dari versi 0.3 menjadi versi 0.4 dengan penerapan tema visual terpusat melalui AppTheme.
 
-Alur data aplikasi dimulai dari Main.java yang membuat objek CharacterManager dan menambahkan data karakter. Selanjutnya, CharacterManager mengelola kumpulan karakter dan menyediakan data melalui method getAllCharacters() serta perhitungan rata-rata melalui getAverageLevel(). Data tersebut kemudian diteruskan ke MainWindow.java untuk ditampilkan menggunakan komponen GUI Java Swing.
+Aplikasi mampu menampilkan kartu karakter dengan warna berdasarkan role, memberikan highlight emas pada karakter dengan level minimal 5, serta menggunakan tooltip dan properti enabled sebagai fitur tambahan.
 
-Pemisahan ini menunjukkan bahwa bagian Model bertanggung jawab mengelola data dan proses perhitungan, sedangkan bagian View bertanggung jawab menampilkan informasi kepada pengguna.
+Pengembangan ini juga memperkuat pemahaman mengenai properti komponen Swing dan prinsip MVC, khususnya pentingnya memisahkan tanggung jawab Model dan View.
 
-## 6. Hasil Pengujian
-
-### Pengujian 1 – Sebelum Perubahan Data
-
-Level Luna: 6
-
-Rata-rata level:
-
-(5 + 3 + 4 + 7 + 6) / 5 = 5.00
-
-![Pengujian pertama](screenshots/tp8-rata-rata-5-00.png)
-
-### Pengujian 2 – Setelah Perubahan Data
-
-Level Luna: 10
-
-Rata-rata level:
-
-(5 + 3 + 4 + 7 + 10) / 5 = 5.80
-
-![Pengujian kedua](screenshots/tp8-rata-rata-5-80.png)
-
-### Tampilan Utama Character Manager
-
-![Tampilan utama](screenshots/tp8-mainwindow-5-karakter.png)
-
-## 7. Kesimpulan
-
-Melalui Sprint 3 TP8, aplikasi Character Manager berhasil dikembangkan menggunakan Java Swing. Aplikasi mampu menampilkan data karakter secara dinamis, menghitung rata-rata level, serta menerapkan pemisahan tanggung jawab antara Model dan View. Pengujian menunjukkan bahwa perubahan data karakter dapat memengaruhi hasil rata-rata level secara otomatis.
-
-## 8. Laporan Google Docs
-
-Link laporan TP8:
-
-https://docs.google.com/document/d/1N_j1fCVVdD4JbcHTHUzI1LIU6VkryTnDt11Zz_TMtzY/edit?usp=sharing
 ---
 
 **Repository GitHub:**  
 https://github.com/yanicantik16/JavaVisual-253303621278
 
-**Branch:** sprint-3-tp8
+**Branch:** `sprint-4-tp10`
