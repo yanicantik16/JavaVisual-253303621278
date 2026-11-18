@@ -108,6 +108,23 @@ public class Character {
         return hitPoints > 0;
     }
 
+    // ===== METHOD equals =====
+    // Dua karakter dianggap sama jika namanya sama.
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof Character)) {
+            return false;
+        }
+
+        Character other = (Character) obj;
+
+        return this.name.equals(other.name);
+    }
+
     // ===== toString =====
     @Override
     public String toString() {
