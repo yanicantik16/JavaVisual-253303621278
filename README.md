@@ -35,6 +35,7 @@ Program berhasil dikompilasi dan dijalankan melalui Terminal menggunakan Java.
 Program menampilkan tiga karakter utama, proses peningkatan level Arjuna, serta pengujian fitur tambahan berupa Mana dan isAlive().
 
 **Screenshot hasil program:**
+
 ![alt text](hasil-program.png)
 
 ## 5. Identitas Mahasiswa
@@ -42,7 +43,7 @@ Program menampilkan tiga karakter utama, proses peningkatan level Arjuna, serta 
 - NIM: 253303621278
 - Mata Kuliah: Java Visual SIH-6406
 - Tugas: TP3 — Character Manager Sprint #1
-- Tanggal: 11 November 2027
+- Tanggal: 11 November 2026
 
 ## 6. Link Google Docs
 https://docs.google.com/document/d/1dAGIkz2O9_-CEyK_-ONV9UVBErFjpvyR_64NC5E5m6I/edit?usp=sharing
