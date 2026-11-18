@@ -117,8 +117,7 @@ Melalui Sprint 3 TP8, aplikasi Character Manager berhasil dikembangkan menggunak
 
 Link laporan TP8:
 
-[Tempelkan link Google Docs di sini]
-
+https://docs.google.com/document/d/1N_j1fCVVdD4JbcHTHUzI1LIU6VkryTnDt11Zz_TMtzY/edit?usp=sharing
 ---
 
 **Repository GitHub:**  
