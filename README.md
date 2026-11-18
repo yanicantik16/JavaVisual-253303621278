@@ -172,11 +172,8 @@ CharacterManager/
 
 Link laporan Google Docs TP10:
 
-**Akan ditambahkan setelah dokumen analisis TP10 selesai dibuat.**
+https://docs.google.com/document/d/1u2xAq7lSVhlvputu2Wu4oa-YzqSaDAsYZUl4lN-6X60/edit?usp=sharing
 
-Nama dokumen:
-
-`JavaVisual_TP10_[NIM]_[Nama]`
 
 ## 11. Kesimpulan
 
