@@ -54,7 +54,9 @@ Program telah diuji dengan beberapa skenario:
 
 **Screenshot hasil pengujian:**
 
-<!-- Tambahkan screenshot hasil program TP5 di sini -->
+![Hasil Pengujian TP5 Bagian 1](screenshots/hasil-pengujian-tp5-1.png)
+
+![Hasil Pengujian TP5 Bagian 2](screenshots/hasil-pengujian-tp5-2.png)
 
 ## 6. Identitas Mahasiswa
 - Nama: Triyani Vianny
@@ -64,4 +66,4 @@ Program telah diuji dengan beberapa skenario:
 - Tanggal: 18 November 2026
 
 ## 7. Link Google Docs
-<!-- Tambahkan link Google Docs TP5 setelah dokumen selesai dibuat -->
+https://docs.google.com/document/d/1FD08w44BXL_JIl6FOT5UnjX6Tw4e-4wPLTNIua4mxMQ/edit?usp=sharing
