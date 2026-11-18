@@ -39,15 +39,16 @@ public final class AppTheme {
     public static final Border CARD_BORDER =
             BorderFactory.createEmptyBorder(8, 12, 8, 12);
 
-    // Mencegah objek AppTheme dibuat
+    public static final Border PANEL_BORDER =
+            BorderFactory.createEmptyBorder(20, 25, 20, 25);
+
     private AppTheme() {
     }
 
-    // ===== METHOD WARNA BERDASARKAN ROLE =====
+    // ===== WARNA BERDASARKAN ROLE =====
     public static Color colorFor(CharacterType type) {
 
         switch (type) {
-
             case WARRIOR:
                 return WARRIOR_COLOR;
 
@@ -69,7 +70,6 @@ public final class AppTheme {
     public static String describe(CharacterType type) {
 
         switch (type) {
-
             case WARRIOR:
                 return "Warrior: jarak dekat, HP tinggi";
 

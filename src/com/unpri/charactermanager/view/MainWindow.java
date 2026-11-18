@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -45,12 +44,8 @@ public class MainWindow extends JFrame {
         mainPanel = new JPanel(new GridLayout(0, 1, 5, 10));
 
         mainPanel.setBackground(AppTheme.BG_MAIN);
-        mainPanel.setBorder(
-                BorderFactory.createEmptyBorder(20, 25, 20, 25)
-        );
-        mainPanel.setPreferredSize(new Dimension(600, 450));
+        mainPanel.setBorder(AppTheme.PANEL_BORDER);
 
-        // Judul daftar karakter
         JLabel titleLabel = new JLabel(
                 "=== Daftar Karakter (" + characterList.size() + ") ===",
                 SwingConstants.CENTER
@@ -61,12 +56,10 @@ public class MainWindow extends JFrame {
 
         mainPanel.add(titleLabel);
 
-        // Menampilkan kartu setiap karakter
         for (Character c : characterList) {
             mainPanel.add(createCharacterLabel(c));
         }
 
-        // Menampilkan rata-rata level
         double averageLevel = manager.getAverageLevel();
 
         JLabel averageLabel = new JLabel(
@@ -96,11 +89,11 @@ public class MainWindow extends JFrame {
         characterLabel.setBackground(AppTheme.colorFor(c.getType()));
         characterLabel.setOpaque(true);
 
-        // Border dan font dari AppTheme
+        // Border dan font
         characterLabel.setBorder(AppTheme.CARD_BORDER);
         characterLabel.setFont(AppTheme.FONT_BODY);
 
-        // Mini-Challenge: level tinggi berwarna emas dan tebal
+        // Highlight karakter level tinggi
         if (c.getLevel() >= AppTheme.HIGH_LEVEL_THRESHOLD) {
 
             characterLabel.setForeground(AppTheme.GOLD);
@@ -113,20 +106,25 @@ public class MainWindow extends JFrame {
             characterLabel.setForeground(AppTheme.TEXT_LIGHT);
         }
 
-        // Properti tambahan 1: tooltip detail karakter
+        // Properti tambahan 1: tooltip
         characterLabel.setToolTipText(
-                "Role: " + c.getType()
+                AppTheme.describe(c.getType())
                 + " | HP: " + c.getHitPoints()
                 + " | ATK: " + c.getAttackPower()
         );
 
-        // Properti tambahan 2: level 1 ditandai sebagai terkunci
+        // Properti tambahan 2: level 1 dinonaktifkan
         if (c.getLevel() == 1) {
             characterLabel.setEnabled(false);
             characterLabel.setToolTipText(
                     "Karakter terkunci - Level masih 1"
             );
         }
+
+        // Kursor berubah menjadi tangan
+        characterLabel.setCursor(
+                Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
+        );
 
         return characterLabel;
     }
