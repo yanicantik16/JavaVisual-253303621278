@@ -1,12 +1,11 @@
 
 package com.unpri.charactermanager.view;
 
+import com.unpri.charactermanager.model.CharacterType;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
-
-import com.unpri.charactermanager.model.CharacterType;
 
 public final class AppTheme {
 
@@ -15,6 +14,10 @@ public final class AppTheme {
     public static final Color TEXT_MAIN = Color.decode("#dfe6e9");
     public static final Color TEXT_LIGHT = Color.WHITE;
     public static final Color GOLD = Color.decode("#fdcb6e");
+
+    // ===== WARNA STATUS BAR =====
+    public static final Color BG_STATUS = Color.decode("#0d0d1a");
+    public static final Color TEXT_MUTED = Color.decode("#9d9dbf");
 
     // ===== WARNA BERDASARKAN ROLE =====
     public static final Color WARRIOR_COLOR = Color.decode("#d63031");
