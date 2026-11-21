@@ -169,7 +169,7 @@ Package model tetap bertanggung jawab mengelola data karakter dan logika aplikas
 
 Link laporan Google Docs TP12:
 
-**[MASUKKAN LINK GOOGLE DOCS TP12 DI SINI]**
+https://docs.google.com/document/d/1LmsSJdmB8EnrT9nsaCXm7r9r6BVrg9qcWpAxYOjutX0/edit?usp=sharing
 
 ---
 
