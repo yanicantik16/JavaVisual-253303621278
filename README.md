@@ -1,13 +1,14 @@
 
-# Character Manager – Sprint 4 (TP10)
+# Character Manager – Sprint 5 (TP12)
 
-## Theming, Properti Komponen & Analisis MVC
+## Layout, UI Responsif & Analisis MVC
 
 **Mata Kuliah:** Java Visual  
 **CPMK:** 2  
-**SCPMK:** 4  
-**Sprint:** 4  
-**Tugas:** TP10 – Character Manager Sprint #4
+**SCPMK:** 5  
+**Sprint:** 5  
+**Tugas:** TP12 – Character Manager Sprint #5  
+**Versi Aplikasi:** v0.5
 
 ---
 
@@ -15,86 +16,65 @@
 
 Character Manager merupakan aplikasi berbasis Java yang dikembangkan menggunakan konsep Object-Oriented Programming (OOP) dan Graphical User Interface (GUI) dengan Java Swing.
 
-Pada Sprint 4 ini, aplikasi dikembangkan dari versi 0.3 menjadi versi 0.4. Pengembangan berfokus pada penerapan tema visual menggunakan class AppTheme, pengaturan properti komponen Swing, serta pemahaman pemisahan tanggung jawab berdasarkan prinsip Model-View-Controller (MVC).
-
-Class AppTheme digunakan untuk mengelola warna, font, border, dan warna kartu berdasarkan role karakter. Tampilan aplikasi juga diperbarui agar lebih konsisten dan mudah digunakan.
+Pada Sprint 5 ini, aplikasi dikembangkan dari versi 0.4 menjadi versi 0.5. Pengembangan berfokus pada penerapan Layout Manager, tampilan antarmuka responsif, penggunaan JScrollPane, panel bersarang, serta pemahaman pemisahan tanggung jawab berdasarkan prinsip Model-View-Controller (MVC).
 
 ## 2. Fitur yang Dikembangkan
 
-1. Membuat class AppTheme.java pada package view.
-2. Mengatur warna utama dan warna teks aplikasi.
-3. Memberikan warna kartu berbeda berdasarkan role karakter.
-4. Menggunakan tiga konstanta font.
-5. Mengatur border melalui AppTheme.
-6. Menggunakan pack() untuk menyesuaikan ukuran jendela.
-7. Menampilkan enam karakter dengan role dan level yang bervariasi.
-8. Memberikan highlight emas dan tebal pada karakter dengan level minimal 5.
-9. Menyimpan batas level tinggi dalam konstanta HIGH_LEVEL_THRESHOLD.
-10. Menambahkan tooltip dan properti enabled pada kartu karakter.
-11. Mempertahankan fitur perhitungan rata-rata level.
+1. Menggunakan BorderLayout sebagai layout utama.
+2. Membagi tampilan menjadi empat wilayah, yaitu NORTH, CENTER, EAST, dan SOUTH.
+3. Menampilkan daftar karakter menggunakan JScrollPane.
+4. Menggunakan GridLayout untuk menyusun kartu karakter.
+5. Menggunakan BoxLayout dengan arah Y_AXIS untuk legenda role.
+6. Menampilkan legenda berdasarkan CharacterType.values().
+7. Menambahkan panel statistik menggunakan GridLayout.
+8. Menambahkan status bar dengan informasi di kiri dan versi v0.5 di kanan.
+9. Menampilkan minimal delapan karakter dengan variasi role dan level.
+10. Menguji perubahan ukuran jendela aplikasi.
 
-## 3. Implementasi AppTheme
+## 3. Implementasi Layout
 
-Class AppTheme.java dibuat pada package:
+Aplikasi menggunakan BorderLayout sebagai layout utama dengan pembagian berikut:
 
-`com.unpri.charactermanager.view`
+| Wilayah | Komponen | Fungsi |
+|---|---|---|
+| NORTH | Header dan statistik | Menampilkan judul dan informasi statistik |
+| CENTER | JScrollPane | Menampilkan daftar karakter |
+| EAST | Role Legend | Menampilkan informasi role |
+| SOUTH | Status Bar | Menampilkan status aplikasi dan versi |
 
-Class ini bertanggung jawab mengatur tampilan aplikasi secara terpusat.
+Daftar karakter disusun menggunakan GridLayout pada panel pembungkus. Panel tersebut dimasukkan ke dalam JScrollPane agar pengguna tetap dapat melihat seluruh karakter ketika ukuran jendela diperkecil.
 
-### A. Warna Berdasarkan Role
+Legenda role menggunakan BoxLayout dengan arah Y_AXIS sehingga setiap role tersusun secara vertikal.
 
-| Role | Warna |
-|---|---|
-| WARRIOR | Merah |
-| MAGE | Biru |
-| ARCHER | Hijau |
-| HEALER | Ungu |
+## 4. Panel Tambahan – Statistik
 
-Warna tersebut diterapkan menggunakan method colorFor(CharacterType type). Method ini menentukan warna kartu berdasarkan tipe karakter.
+Pada Sprint 5 ditambahkan panel statistik menggunakan GridLayout(2, 2).
 
-### B. Font
+Panel ini menampilkan empat informasi:
 
-AppTheme menyediakan tiga konstanta font:
+1. Total karakter.
+2. Rata-rata level.
+3. Karakter terkuat.
+4. Versi aplikasi.
 
-- FONT_TITLE: SansSerif tebal ukuran 22.
-- FONT_BODY: SansSerif normal ukuran 14.
-- FONT_MONO: Monospaced normal ukuran 13.
+GridLayout dipilih karena dapat menyusun empat informasi dalam baris dan kolom dengan ukuran sel yang seragam.
 
-### C. Border
+FlowLayout tidak dipilih karena susunan komponennya mengikuti aliran horizontal dan kurang sesuai untuk pembagian informasi statistik menjadi empat bagian yang teratur.
 
-AppTheme menyediakan CARD_BORDER menggunakan BorderFactory.createEmptyBorder() untuk mengatur jarak bagian dalam kartu karakter.
+## 5. Mini-Challenge – Status Bar
 
-## 4. Mini-Challenge – Highlight Level Tinggi
+Status bar menggunakan BorderLayout agar informasi dapat ditempatkan pada dua sisi berbeda.
 
-Karakter dengan level minimal 5 akan mendapatkan warna teks emas dan gaya font tebal.
+- Bagian kiri menampilkan jumlah karakter dan status pemuatan data.
+- Bagian kanan menampilkan versi aplikasi v0.5.
 
-Batas level tersebut disimpan dalam konstanta:
-
-`HIGH_LEVEL_THRESHOLD = 5`
-
-Karakter dengan level di bawah 5 menggunakan teks putih dan font normal.
-
-Penggunaan konstanta membuat pengaturan batas level lebih mudah diubah dan menghindari penulisan angka yang sama secara berulang.
-
-## 5. Dua Properti Tambahan
-
-### A. Tooltip
-
-Properti setToolTipText() digunakan untuk menampilkan informasi tambahan ketika kursor diarahkan ke kartu karakter.
-
-Informasi yang ditampilkan meliputi role, HP, dan ATK. Properti ini membantu pengguna melihat informasi karakter tanpa membuat tampilan utama terlalu penuh.
-
-### B. Enabled
-
-Properti setEnabled(false) digunakan untuk menandai karakter dengan level 1 sebagai karakter terkunci.
-
-Properti ini memberikan tampilan berbeda pada karakter yang masih berada di level awal. Tooltip khusus juga ditambahkan untuk menjelaskan kondisi karakter tersebut.
+Dengan susunan ini, informasi status dan versi aplikasi dapat ditampilkan secara terpisah.
 
 ## 6. Data Karakter
 
-Pada Sprint 4, aplikasi menampilkan enam karakter dengan variasi role dan level.
+Aplikasi menampilkan delapan karakter dengan variasi role dan level.
 
-| Nama | Tipe | Level |
+| Nama | Role | Level |
 |---|---|---:|
 | Arjuna | WARRIOR | 5 |
 | Merlin | MAGE | 3 |
@@ -102,90 +82,136 @@ Pada Sprint 4, aplikasi menampilkan enam karakter dengan variasi role dan level.
 | Bima | WARRIOR | 7 |
 | Luna | HEALER | 10 |
 | Morgana | MAGE | 1 |
+| Ranger | ARCHER | 6 |
+| Aurelia | HEALER | 8 |
 
-Perhitungan rata-rata level:
+**Total karakter:** 8  
+**Rata-rata level:** 5.50
 
-(5 + 3 + 4 + 7 + 10 + 1) / 6 = 5.00
+## 7. Wireframe Aplikasi
 
-## 7. Hasil Pengujian
+Berikut gambaran struktur tampilan Character Manager v0.5.
 
-### A. Sebelum Pengembangan – Versi 0.3
+~~~text
++------------------------------------------------------+
+|                    HEADER (NORTH)                    |
+|             Judul dan deskripsi aplikasi             |
+|------------------------------------------------------|
+|                  PANEL STATISTIK                     |
+|       Total | Rata-rata | Terkuat | Versi             |
+|------------------------------------------------------|
+|                                    |                 |
+|  DAFTAR KARAKTER (CENTER)          | ROLE LEGEND     |
+|                                    | (EAST)          |
+|  +--------------------------------+|                 |
+|  | Arjuna - WARRIOR               || WARRIOR         |
+|  +--------------------------------+| MAGE            |
+|  | Merlin - MAGE                  || ARCHER          |
+|  +--------------------------------+| HEALER          |
+|  | Athena - ARCHER                ||                 |
+|  +--------------------------------+|                 |
+|  | ...                            ||                 |
+|  +--------------------------------+|                 |
+|          SCROLLBAR                 |                 |
+|------------------------------------------------------|
+|                  STATUS BAR (SOUTH)                   |
+|       Total karakter                  v0.5            |
++------------------------------------------------------+
+~~~
 
-Pada versi 0.3, tampilan karakter masih sederhana dan belum menggunakan warna khusus berdasarkan role.
+## 8. Hasil Pengujian Responsivitas
 
-![Character Manager versi 0.3](screenshots/tp10-sebelum-v03.png)
+### A. Ukuran Awal
 
-### B. Setelah Pengembangan – Versi 0.4
+![Character Manager ukuran awal](screenshots/tp12-1-ukuran-awal.png)
 
-Pada versi 0.4, setiap kartu karakter memiliki warna sesuai role. Karakter dengan level minimal 5 ditampilkan dengan teks emas dan tebal. Tooltip dan properti enabled juga telah diterapkan.
+### B. Jendela Dilebarkan
 
-![Character Manager versi 0.4](screenshots/tp10-sesudah-v04.png)
+![Character Manager ukuran lebar](screenshots/tp12-2-ukuran-lebar.png)
 
-### C. Ringkasan Pengujian
+### C. Jendela Dikecilkan Sampai Scrollbar Terlihat
 
-| Komponen yang Diuji | Hasil |
-|---|---|
-| AppTheme | Berhasil |
-| Warna kartu berdasarkan role | Berhasil |
-| Highlight level minimal 5 | Berhasil |
-| Tooltip informasi karakter | Berhasil |
-| Karakter level 1 nonaktif | Berhasil |
-| Rata-rata level | Berhasil |
-| Kompilasi program | Berhasil |
+![Character Manager ukuran kecil](screenshots/tp12-3-ukuran-kecil.png)
 
-## 8. Analisis MVC
+## 9. Tabel Pengamatan Resize
 
-Pengaturan warna, font, border, dan properti visual ditempatkan pada layer View karena berkaitan dengan bagaimana informasi ditampilkan kepada pengguna.
+| Kondisi | Prediksi | Hasil Pengamatan |
+|---|---|---|
+| Ukuran awal | Komponen tampil sesuai layout | Tampilan awal berhasil ditampilkan |
+| Jendela dilebarkan | Area CENTER menyesuaikan ruang yang tersedia | Daftar karakter menjadi lebih lebar |
+| Jendela dikecilkan | JScrollPane menyediakan scrollbar jika diperlukan | Scrollbar vertikal terlihat dan daftar dapat digulir |
 
-Class Character pada Model bertanggung jawab merepresentasikan data dan karakteristik karakter, bukan mengatur tampilan antarmuka.
+Berdasarkan pengujian, JScrollPane membantu pengguna melihat daftar karakter ketika ruang tampilan menjadi terbatas. Pada ukuran yang sangat kecil, beberapa teks pada panel legenda dan status terlihat terpotong.
 
-Dengan memisahkan tanggung jawab tersebut, perubahan tema aplikasi dapat dilakukan tanpa mengubah struktur Model. Penggunaan AppTheme juga membuat pengaturan tampilan lebih terpusat, konsisten, dan mudah dipelihara.
+## 10. Struktur Panel Bersarang
 
-## 9. Struktur Program
+Aplikasi menggunakan mainPanel sebagai panel utama dengan BorderLayout. Di dalamnya terdapat panel NORTH yang menampung header dan panel statistik. Bagian CENTER berisi JScrollPane yang membungkus panel daftar karakter dengan GridLayout, sedangkan bagian EAST berisi panel legenda menggunakan BoxLayout. Bagian SOUTH digunakan untuk status bar yang menampilkan informasi jumlah karakter dan versi aplikasi.
 
-```text
+## 11. Alasan Pemilihan Layout
+
+BorderLayout dipilih sebagai layout utama karena dapat membagi jendela menjadi beberapa wilayah dengan fungsi yang berbeda.
+
+GridLayout dipilih untuk menyusun kartu karakter dan panel statistik karena menghasilkan susunan komponen yang teratur.
+
+BoxLayout dipilih untuk legenda karena informasi role lebih mudah dibaca jika disusun secara vertikal.
+
+FlowLayout tidak dipilih untuk daftar karakter karena kurang sesuai untuk susunan kartu vertikal yang konsisten.
+
+setLayout(null) juga tidak digunakan karena posisi komponen harus ditentukan secara manual menggunakan setBounds(). Cara tersebut kurang fleksibel ketika ukuran jendela berubah.
+
+## 12. Analisis MVC
+
+Pengaturan layout ditempatkan pada package view karena layout berkaitan dengan cara komponen ditampilkan kepada pengguna.
+
+Package model tetap bertanggung jawab mengelola data karakter dan logika aplikasi. Dengan pemisahan ini, perubahan tampilan dapat dilakukan tanpa harus mengubah class Character, CharacterType, atau CharacterManager.
+
+## 13. Laporan Google Docs
+
+Link laporan Google Docs TP12:
+
+**[MASUKKAN LINK GOOGLE DOCS TP12 DI SINI]**
+
+---
+
+## 14. Struktur Program
+
+~~~text
 CharacterManager/
-│
-├── src/
-│   ├── Main.java
-│   │
-│   └── com/
-│       └── unpri/
-│           └── charactermanager/
-│               ├── model/
-│               │   ├── Character.java
-│               │   ├── CharacterType.java
-│               │   └── CharacterManager.java
-│               │
-│               └── view/
-│                   ├── MainWindow.java
-│                   └── AppTheme.java
-│
-├── screenshots/
-│   ├── tp10-sebelum-v03.png
-│   └── tp10-sesudah-v04.png
-│
-└── README.md
-```
+|
+|-- src/
+|   |-- Main.java
+|   |
+|   |-- com/
+|       |-- unpri/
+|           |-- charactermanager/
+|               |-- model/
+|               |   |-- Character.java
+|               |   |-- CharacterType.java
+|               |   |-- CharacterManager.java
+|               |
+|               |-- view/
+|                   |-- MainWindow.java
+|                   |-- AppTheme.java
+|
+|-- screenshots/
+|   |-- tp12-1-ukuran-awal.png
+|   |-- tp12-2-ukuran-lebar.png
+|   |-- tp12-3-ukuran-kecil.png
+|
+|-- README.md
+~~~
 
-## 10. Laporan Google Docs
+## 15. Kesimpulan
 
-Link laporan Google Docs TP10:
+Melalui Sprint 5 TP12, aplikasi Character Manager berhasil dikembangkan menjadi versi 0.5 dengan penerapan Layout Manager, panel bersarang, JScrollPane, legenda role, dan panel statistik.
 
-https://docs.google.com/document/d/1u2xAq7lSVhlvputu2Wu4oa-YzqSaDAsYZUl4lN-6X60/edit?usp=sharing
+Pengujian perubahan ukuran jendela menunjukkan bahwa penggunaan Layout Manager dan JScrollPane membantu mengatur tampilan aplikasi ketika ukuran jendela berubah.
 
-
-## 11. Kesimpulan
-
-Melalui Sprint 4 TP10, aplikasi Character Manager berhasil dikembangkan dari versi 0.3 menjadi versi 0.4 dengan penerapan tema visual terpusat melalui AppTheme.
-
-Aplikasi mampu menampilkan kartu karakter dengan warna berdasarkan role, memberikan highlight emas pada karakter dengan level minimal 5, serta menggunakan tooltip dan properti enabled sebagai fitur tambahan.
-
-Pengembangan ini juga memperkuat pemahaman mengenai properti komponen Swing dan prinsip MVC, khususnya pentingnya memisahkan tanggung jawab Model dan View.
+Pengembangan ini juga memperkuat pemahaman mengenai pemisahan tanggung jawab Model dan View sehingga aplikasi lebih terstruktur dan mudah dikembangkan.
 
 ---
 
 **Repository GitHub:**  
 https://github.com/yanicantik16/JavaVisual-253303621278
 
-**Branch:** `sprint-4-tp10`
+**Branch:** `sprint-5-tp12`
