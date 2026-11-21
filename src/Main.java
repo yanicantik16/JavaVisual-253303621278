@@ -9,10 +9,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // Membuat objek CharacterManager
+        // Membuat CharacterManager
         CharacterManager manager = new CharacterManager();
 
-        // Menambahkan 6 karakter dengan role dan level berbeda
+        // ===== MENAMBAHKAN 8 KARAKTER =====
+
         manager.addCharacter(
                 new Character("Arjuna", CharacterType.WARRIOR, 5)
         );
@@ -37,7 +38,16 @@ public class Main {
                 new Character("Morgana", CharacterType.MAGE, 1)
         );
 
-        // Menjalankan GUI melalui Event Dispatch Thread
+        manager.addCharacter(
+                new Character("Ranger", CharacterType.ARCHER, 6)
+        );
+
+        manager.addCharacter(
+                new Character("Aurelia", CharacterType.HEALER, 8)
+        );
+
+        // ===== MENJALANKAN GUI MELALUI EDT =====
+
         SwingUtilities.invokeLater(() -> {
 
             MainWindow window = new MainWindow(
