@@ -25,6 +25,10 @@ public final class AppTheme {
     public static final Color ARCHER_COLOR = Color.decode("#00b894");
     public static final Color HEALER_COLOR = Color.decode("#6c5ce7");
 
+    // ===== WARNA VALIDASI TP14 =====
+    public static final Color ERROR = Color.decode("#ff7675");
+    public static final Color SUCCESS = Color.decode("#55efc4");
+
     // ===== FONT =====
     public static final Font FONT_TITLE =
             new Font("SansSerif", Font.BOLD, 22);
@@ -51,6 +55,10 @@ public final class AppTheme {
     // ===== WARNA BERDASARKAN ROLE =====
     public static Color colorFor(CharacterType type) {
 
+        if (type == null) {
+            return Color.GRAY;
+        }
+
         switch (type) {
             case WARRIOR:
                 return WARRIOR_COLOR;
@@ -71,6 +79,10 @@ public final class AppTheme {
 
     // ===== DESKRIPSI ROLE =====
     public static String describe(CharacterType type) {
+
+        if (type == null) {
+            return "Role belum terdaftar";
+        }
 
         switch (type) {
             case WARRIOR:
