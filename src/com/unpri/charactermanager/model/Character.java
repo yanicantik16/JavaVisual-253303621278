@@ -18,7 +18,36 @@ public class Character {
 
     // ===== CONSTRUCTOR 1 =====
     public Character(String name, CharacterType type, int level) {
-        this.name = name;
+
+        // Validasi nama
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                "Nama tidak boleh kosong"
+            );
+        }
+
+        // Validasi role
+        if (type == null) {
+            throw new IllegalArgumentException(
+                "Role wajib dipilih"
+            );
+        }
+
+        // Validasi level
+        if (level < 1 || level > 99) {
+            throw new IllegalArgumentException(
+                "Level harus 1-99"
+            );
+        }
+
+        // Mini-Challenge: MAGE maksimal level 60
+        if (type == CharacterType.MAGE && level > 60) {
+            throw new IllegalArgumentException(
+                "MAGE tidak boleh memiliki level di atas 60"
+            );
+        }
+
+        this.name = name.trim();
         this.type = type;
         this.level = level;
         this.hitPoints = calculateBaseHP();
@@ -29,13 +58,45 @@ public class Character {
     // ===== CONSTRUCTOR 2 =====
     public Character(int id, String name, CharacterType type,
                      int level, int hitPoints, int attackPower) {
+
+        this(id, name, type, level, hitPoints, attackPower, 0);
+    }
+
+    // Konstruktor tambahan untuk mempertahankan data lama
+    public Character(int id, String name, CharacterType type,
+                     int level, int hitPoints, int attackPower, int mana) {
+
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                "Nama tidak boleh kosong"
+            );
+        }
+
+        if (type == null) {
+            throw new IllegalArgumentException(
+                "Role wajib dipilih"
+            );
+        }
+
+        if (level < 1 || level > 99) {
+            throw new IllegalArgumentException(
+                "Level harus 1-99"
+            );
+        }
+
+        if (type == CharacterType.MAGE && level > 60) {
+            throw new IllegalArgumentException(
+                "MAGE tidak boleh memiliki level di atas 60"
+            );
+        }
+
         this.id = id;
-        this.name = name;
+        this.name = name.trim();
         this.type = type;
         this.level = level;
         this.hitPoints = hitPoints;
         this.attackPower = attackPower;
-        this.mana = 0;
+        this.mana = mana;
     }
 
     // ===== HELPER METHOD =====
@@ -82,9 +143,16 @@ public class Character {
     }
 
     public void setLevel(int level) {
-        if (level < 1) {
+
+        if (level < 1 || level > 99) {
             throw new IllegalArgumentException(
-                "Level minimal adalah 1"
+                "Level harus 1-99"
+            );
+        }
+
+        if (type == CharacterType.MAGE && level > 60) {
+            throw new IllegalArgumentException(
+                "MAGE tidak boleh memiliki level di atas 60"
             );
         }
 
@@ -109,9 +177,9 @@ public class Character {
     }
 
     // ===== METHOD equals =====
-    // Dua karakter dianggap sama jika namanya sama.
     @Override
     public boolean equals(Object obj) {
+
         if (this == obj) {
             return true;
         }
@@ -122,7 +190,7 @@ public class Character {
 
         Character other = (Character) obj;
 
-        return this.name.equals(other.name);
+        return this.name.equalsIgnoreCase(other.name);
     }
 
     // ===== toString =====
