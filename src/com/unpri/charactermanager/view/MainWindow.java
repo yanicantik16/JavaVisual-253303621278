@@ -4,12 +4,14 @@ package com.unpri.charactermanager.view;
 import com.unpri.charactermanager.model.Character;
 import com.unpri.charactermanager.model.CharacterManager;
 import com.unpri.charactermanager.model.CharacterType;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -21,44 +23,57 @@ import javax.swing.border.EmptyBorder;
 
 public class MainWindow extends JFrame {
 
-    private final ArrayList<Character> characterList;
     private final CharacterManager manager;
 
     private JPanel mainPanel;
+    private JPanel characterHolder;
 
+    private JLabel titleLabel;
+    private JLabel totalValueLabel;
+    private JLabel averageValueLabel;
+    private JLabel strongestValueLabel;
+    private JLabel statusLabel;
+
+    // Constructor untuk kompatibilitas dengan Main.java lama
     public MainWindow(
             ArrayList<Character> characterList,
             CharacterManager manager) {
 
-        super("Character Manager v0.5");
+        this(manager);
+    }
 
-        this.characterList = characterList;
+    // Constructor utama Sprint 6
+    public MainWindow(CharacterManager manager) {
+
+        super("Character Manager v0.6");
+
         this.manager = manager;
 
         initComponents();
 
-        setMinimumSize(new Dimension(560, 380));
+        setMinimumSize(new Dimension(900, 550));
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
 
+    // ===== MEMBUAT KOMPONEN UTAMA =====
     private void initComponents() {
 
-        // ===== MAIN PANEL =====
         mainPanel = new JPanel(new BorderLayout(12, 12));
         mainPanel.setBackground(AppTheme.BG_MAIN);
         mainPanel.setBorder(AppTheme.PANEL_BORDER);
 
-        // ===== NORTH: HEADER DAN PANEL STATISTIK =====
+        // ===== NORTH: HEADER DAN STATISTIK =====
         JPanel northPanel = new JPanel(new BorderLayout(0, 10));
         northPanel.setBackground(AppTheme.BG_MAIN);
 
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(AppTheme.BG_MAIN);
 
-        JLabel titleLabel = new JLabel(
-                "=== Daftar Karakter (" + characterList.size() + ") ==="
+        titleLabel = new JLabel(
+                "=== Daftar Karakter (" +
+                manager.getTotalCharacters() + ") ==="
         );
 
         titleLabel.setFont(AppTheme.FONT_TITLE);
@@ -71,64 +86,64 @@ public class MainWindow extends JFrame {
         subtitleLabel.setFont(AppTheme.FONT_BODY);
         subtitleLabel.setForeground(AppTheme.TEXT_MUTED);
 
-        headerPanel.add(titleLabel, BorderLayout.WEST);
+        headerPanel.add(titleLabel, BorderLayout.NORTH);
         headerPanel.add(subtitleLabel, BorderLayout.SOUTH);
 
         northPanel.add(headerPanel, BorderLayout.NORTH);
 
-        // ===== PANEL TAMBAHAN: STATISTIK =====
-        JPanel statisticsPanel = new JPanel(new GridLayout(2, 2, 8, 5));
+        JPanel statisticsPanel =
+                new JPanel(new GridLayout(1, 3, 8, 5));
+
         statisticsPanel.setBackground(AppTheme.BG_STATUS);
         statisticsPanel.setBorder(
                 BorderFactory.createEmptyBorder(8, 10, 8, 10)
         );
 
-        double averageLevel = manager.getAverageLevel();
+        totalValueLabel = addStatistic(
+                statisticsPanel,
+                "TOTAL KARAKTER",
+                String.valueOf(manager.getTotalCharacters())
+        );
+
+        averageValueLabel = addStatistic(
+                statisticsPanel,
+                "RATA-RATA LEVEL",
+                String.format("%.2f", manager.getAverageLevel())
+        );
 
         Character strongest = manager.findStrongest();
 
-        String strongestName = strongest == null
-                ? "-"
-                : strongest.getName();
-
-        addStatistic(statisticsPanel,
-                "TOTAL KARAKTER",
-                String.valueOf(manager.getTotalCharacters()));
-
-        addStatistic(statisticsPanel,
-                "RATA-RATA LEVEL",
-                String.format("%.2f", averageLevel));
-
-        addStatistic(statisticsPanel,
+        strongestValueLabel = addStatistic(
+                statisticsPanel,
                 "KARAKTER TERKUAT",
-                strongestName);
-
-        addStatistic(statisticsPanel,
-                "VERSI APLIKASI",
-                "v0.5");
+                strongest == null ? "-" : strongest.getName()
+        );
 
         northPanel.add(statisticsPanel, BorderLayout.CENTER);
-
         mainPanel.add(northPanel, BorderLayout.NORTH);
 
+        // ===== WEST: FORM INPUT =====
+        CharacterFormPanel formPanel =
+                new CharacterFormPanel(manager, this::refreshList);
+
+        mainPanel.add(formPanel, BorderLayout.WEST);
+
         // ===== CENTER: DAFTAR KARAKTER =====
-        JPanel characterHolder = new JPanel(new GridLayout(0, 1, 5, 10));
+        characterHolder = new JPanel(new GridLayout(0, 1, 5, 10));
         characterHolder.setBackground(AppTheme.BG_MAIN);
 
         characterHolder.setBorder(
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)
         );
 
-        for (Character c : characterList) {
-            characterHolder.add(createCharacterLabel(c));
-        }
-
         JScrollPane scroll = new JScrollPane(characterHolder);
 
-        scroll.setPreferredSize(new Dimension(460, 280));
+        scroll.setPreferredSize(new Dimension(430, 350));
+
         scroll.setVerticalScrollBarPolicy(
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
         );
+
         scroll.setHorizontalScrollBarPolicy(
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         );
@@ -140,7 +155,6 @@ public class MainWindow extends JFrame {
 
         // ===== EAST: ROLE LEGEND =====
         JPanel legendPanel = createLegendPanel();
-
         mainPanel.add(legendPanel, BorderLayout.EAST);
 
         // ===== SOUTH: STATUS BAR =====
@@ -151,15 +165,15 @@ public class MainWindow extends JFrame {
                 BorderFactory.createEmptyBorder(8, 12, 8, 12)
         );
 
-        JLabel statusLabel = new JLabel(
-                "Total karakter: " + characterList.size()
+        statusLabel = new JLabel(
+                "Total karakter: " + manager.getTotalCharacters()
                         + " | Semua data berhasil dimuat"
         );
 
         statusLabel.setFont(AppTheme.FONT_MONO);
         statusLabel.setForeground(AppTheme.TEXT_MUTED);
 
-        JLabel versionLabel = new JLabel("v0.5");
+        JLabel versionLabel = new JLabel("v0.6");
 
         versionLabel.setFont(AppTheme.FONT_MONO);
         versionLabel.setForeground(AppTheme.GOLD);
@@ -171,18 +185,18 @@ public class MainWindow extends JFrame {
 
         // ===== TAMBAHKAN MAIN PANEL =====
         add(mainPanel);
+
+        // Muat daftar karakter
+        refreshList();
     }
 
     // ===== MEMBUAT KOMPONEN STATISTIK =====
-    private void addStatistic(
+    private JLabel addStatistic(
             JPanel panel,
             String title,
             String value) {
 
-        JPanel itemPanel = new JPanel(
-                new BorderLayout(0, 3)
-        );
-
+        JPanel itemPanel = new JPanel(new BorderLayout(0, 3));
         itemPanel.setBackground(AppTheme.BG_STATUS);
 
         JLabel titleLabel = new JLabel(title);
@@ -190,16 +204,20 @@ public class MainWindow extends JFrame {
         titleLabel.setForeground(AppTheme.TEXT_MUTED);
 
         JLabel valueLabel = new JLabel(value);
-        valueLabel.setFont(AppTheme.FONT_BODY.deriveFont(Font.BOLD));
+        valueLabel.setFont(
+                AppTheme.FONT_BODY.deriveFont(Font.BOLD)
+        );
         valueLabel.setForeground(AppTheme.GOLD);
 
         itemPanel.add(titleLabel, BorderLayout.NORTH);
         itemPanel.add(valueLabel, BorderLayout.CENTER);
 
         panel.add(itemPanel);
+
+        return valueLabel;
     }
 
-    // ===== MEMBUAT LEGEND ROLE =====
+    // ===== MEMBUAT ROLE LEGEND =====
     private JPanel createLegendPanel() {
 
         JPanel legendPanel = new JPanel();
@@ -209,16 +227,22 @@ public class MainWindow extends JFrame {
         );
 
         legendPanel.setBackground(AppTheme.BG_STATUS);
+
         legendPanel.setBorder(
                 BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(AppTheme.TEXT_MUTED),
+                        BorderFactory.createLineBorder(
+                                AppTheme.TEXT_MUTED
+                        ),
                         new EmptyBorder(10, 10, 10, 10)
                 )
         );
 
         JLabel legendTitle = new JLabel("ROLE LEGEND");
 
-        legendTitle.setFont(AppTheme.FONT_BODY.deriveFont(Font.BOLD));
+        legendTitle.setFont(
+                AppTheme.FONT_BODY.deriveFont(Font.BOLD)
+        );
+
         legendTitle.setForeground(AppTheme.GOLD);
         legendTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -227,17 +251,14 @@ public class MainWindow extends JFrame {
 
         for (CharacterType type : CharacterType.values()) {
 
-            JLabel roleLabel = new JLabel(
-                    type.toString()
-            );
+            JLabel roleLabel = new JLabel(type.toString());
 
             roleLabel.setFont(AppTheme.FONT_BODY);
             roleLabel.setForeground(AppTheme.colorFor(type));
             roleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-            JLabel descriptionLabel = new JLabel(
-                    AppTheme.describe(type)
-            );
+            JLabel descriptionLabel =
+                    new JLabel(AppTheme.describe(type));
 
             descriptionLabel.setFont(
                     AppTheme.FONT_MONO.deriveFont(10f)
@@ -306,5 +327,45 @@ public class MainWindow extends JFrame {
         }
 
         return characterLabel;
+    }
+
+    // ===== MEMPERBARUI DAFTAR DAN STATISTIK =====
+    public void refreshList() {
+
+        characterHolder.removeAll();
+
+        for (Character character : manager.getAllCharacters()) {
+            characterHolder.add(createCharacterLabel(character));
+        }
+
+        titleLabel.setText(
+                "=== Daftar Karakter (" +
+                manager.getTotalCharacters() + ") ==="
+        );
+
+        totalValueLabel.setText(
+                String.valueOf(manager.getTotalCharacters())
+        );
+
+        averageValueLabel.setText(
+                String.format("%.2f", manager.getAverageLevel())
+        );
+
+        Character strongest = manager.findStrongest();
+
+        strongestValueLabel.setText(
+                strongest == null ? "-" : strongest.getName()
+        );
+
+        statusLabel.setText(
+                "Total karakter: " + manager.getTotalCharacters()
+                        + " | Data berhasil diperbarui"
+        );
+
+        characterHolder.revalidate();
+        characterHolder.repaint();
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
     }
 }
